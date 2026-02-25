@@ -22,4 +22,4 @@ services:
 
 databases:
   - name: cc-webhook-ingress-db
-    plan: Organization
+    plan: basic-256mb 

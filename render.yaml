@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: cc-webhook-ingress
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cc-webhook-ingress-db
+          property: connectionString
+      - key: ROUTES_JSON
+        sync: false
+      - key: VERIFY_SIGNATURE
+        value: "false"
+      - key: CC_WEBHOOK_SECRET
+        sync: false
+      - key: ZAPIER_FALLBACK_URL
+        sync: false
+
+databases:
+  - name: cc-webhook-ingress-db
+    plan: starter
